@@ -1,0 +1,255 @@
+<html>
+  <head>
+    <title>Assignment 1</title>
+    <style>
+      #pageTitle {
+        font-size: 36px;
+        color: #d9f1f9ea;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 5px black;
+        opacity: 0;
+        transform: translateY(-30px);
+        animation: fadeSlideIn 2s ease forwards;
+      }
+
+      @keyframes fadeSlideIn {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: rgba(0, 0, 0, 0.822);
+        color: rgba(255, 255, 255, 0.723);
+        padding: 20px;
+      }
+
+      input,
+      select,
+      button {
+        margin: 5px;
+        padding: 5px;
+        border-radius: 5px;
+      }
+      label {
+        margin-right: 10px;
+      }
+      button:hover {
+        border: 2px solid #6c9aa7ea;
+        transition: 0.3s ease-in-out;
+      }
+
+      /* .txtsetAbtn {
+      } */
+      .clearAbtn:hover {
+        border: 2px solid #6c9aa7ea;
+        transition: 0.3s ease-in-out;
+      }
+      .insertAbtn:hover {
+        border: 2px solid #6c9aa7ea;
+        transition: 0.3s ease-in-out;
+      }
+      /* .txtsetBbtn {
+      } */
+      .clearBbtn:hover {
+        border: 2px solid #6c9aa7ea;
+        transition: 0.3s ease-in-out;
+      }
+      .delbtnA {
+        border: 2px solid #6c9aa7ea;
+        transition: 0.3s ease-in-out;
+      }
+      .delbtnB {
+        border: 2px solid #6c9aa7ea;
+        transition: 0.3s ease-in-out;
+      }
+      .insertBbtn:hover {
+        border: 2px solid #6c9aa7ea;
+        transition: 0.3s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="pageTitle">Assignment 1</h1>
+
+    <div>
+      <label> Enter the a element in Set A: </label>
+      <input
+        type="number"
+        placeholder="Enter a number"
+        id="txtElementofSetA"
+        value="0"
+        class="txtsetAbtn"
+      />
+      <input
+        type="button"
+        id="clickA"
+        value="Clear"
+        onclick="clearInputOfSetA()"
+        class="clearAbtn"
+      />
+      <input
+        type="button"
+        value="Insert Value in Set A"
+        onclick="insertElementInSetA()"
+        class="insertAbtn"
+      />
+      <input
+        type="button"
+        class="delbtnA"
+        id="delfromA"
+        value="Remove Value from Set A"
+      />
+    </div>
+    <div>
+      <label> Enter the a element in Set B: </label>
+      <input
+        type="number"
+        placeholder="Enter a number"
+        id="txtElementofSetB"
+        value="0"
+        class="txtsetBbtn"
+      />
+      <input
+        type="button"
+        id="ClickB"
+        value="Clear"
+        onclick="clearInputOfSetB()"
+        class="clearBbtn"
+      />
+      <input
+        type="button"
+        value="Insert Value in Set B"
+        onclick="insertElementInSetB()"
+        class="insertBbtn"
+      />
+      <input
+        type="button"
+        class="delbtnB"
+        id="delfromB"
+        value="Remove Value from Set B"
+      />
+      <p>A B A B A B A ⋃ B A ⋂ B A B A ′ A B A − B B − A</p>
+    </div>
+
+    <div>
+      <label class="operation-label">Select Operation:</label>
+      <select id="operationSelect">
+        <option value="Union">A ∪ B</option>
+        <option value="Intersection">A ∩ B</option>
+        <option value="AComplement">A′</option>
+        <option value="BComplement">B′</option>
+        <option value="ADiffB">A − B</option>
+        <option value="BDiffA">B − A</option>
+      </select>
+      <button type="button" class="resultbtn" onclick="performOperation()">
+        Submit
+      </button>
+    </div>
+    <div>
+      <label> Set A = </label>
+      <span id="spanSetA"> </span>
+    </div>
+    <div>
+      <label> Set B = </label>
+      <span id="spanSetB"></span>
+    </div>
+    <div>
+      <label> Result </label>
+      <span id="spanResultantSet"> </span>
+    </div>
+    <script>
+      var setA = [];
+      var setB = [];
+      var universalSet = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      // Write your code below
+
+      function clearInputOfSetA() {
+        document.getElementById("txtElementofSetA").value = "";
+      }
+
+      document.getElementById("delfromA").onclick = function () {
+        setA.pop();
+        ArrayA();
+      };
+      function insertElementInSetA() {
+        var numA = Number(document.getElementById("txtElementofSetA").value);
+        setA.push(numA);
+        ArrayA();
+      }
+      function ArrayA() {
+        const elementA = document.getElementById("spanSetA");
+        elementA.innerHTML = "{" + setA + "}";
+      }
+      function insertElementInSetB() {
+        var numB = Number(document.getElementById("txtElementofSetB").value);
+        setB.push(numB);
+        ArrayB();
+      }
+      function clearInputOfSetB() {
+        document.getElementById("txtElementofSetB").value = "";
+      }
+      function ArrayB() {
+        const elementA = document.getElementById("spanSetB");
+        elementA.innerHTML = "{" + setB + "}";
+      }
+      document.getElementById("delfromB").onclick = function () {
+        setB.pop();
+        ArrayB();
+      };
+      function performOperation() {
+        var inputfromMenu = document.getElementById("operationSelect").value;
+        switch (inputfromMenu) {
+          case "Union": {
+            var resSet = setA.concat(setB); // this will concatinate both arrays
+            resSet = [...new Set(resSet)]; // this will remove any duplicates
+            resSet.sort((a, b) => a - b); // this will sort the array
+            ShowResult(resSet);
+            break;
+          }
+          case "Intersection": {
+            var resSet = [];
+            for (let i = 0; i < setA.length; i++) {
+              for (let j = 0; j < setB.length; j++) {
+                if (setA[i] == setB[j]) {
+                  resSet.push(setA[i]);
+                  break;
+                }
+              }
+            }
+            ShowResult(resSet);
+            break;
+          }
+          case "AComplement": {
+            var resSet = universalSet.filter((num) => !setA.includes(num));
+            ShowResult(resSet);
+            break;
+          }
+          case "BComplement": {
+            var resSet = universalSet.filter((num) => !setB.includes(num));
+            ShowResult(resSet);
+            break;
+          }
+          case "ADiffB": {
+            var resSet = setA.filter((num) => !setB.includes(num));
+            ShowResult(resSet);
+            break;
+          }
+          case "BDiffA": {
+            var resSet = setB.filter((num) => !setA.includes(num));
+            ShowResult(resSet);
+            break;
+          }
+          default: {
+          }
+        }
+      }
+      function ShowResult(ResultSet) {
+        const Resultelemnet = document.getElementById("spanResultantSet");
+        Resultelemnet.innerHTML = "{" + ResultSet + "}";
+      }
+    </script>
+  </body>
+</html>

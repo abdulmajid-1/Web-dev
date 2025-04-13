@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <title>JavaScript Testing using Form elements</title>
+  </head>
+  <body>
+    <div>
+      <label> Enter a number: </label>
+      <input
+        type="number"
+        id="txtNumber"
+        placeholder="Enter Positive Numbers Only"
+        min="0"
+      />
+    </div>
+    <div>
+      <input type="button" id="btnInsert" value="Insert to Array" />
+    </div>
+    <div>
+      <span id="spanOutput"> </span>
+    </div>
+    <script>
+      let myArray = new Array();
+
+      function search(array, key) {
+        let index = 0;
+        let inRange = index < array.length;
+        let isFound = array[index] == key;
+        while (inRange && !isFound) {
+          index += 1;
+          inRange = index < array.length;
+          isFound = array[index] == key;
+        }
+        return inRange;
+      }
+
+      document.getElementById("btnInsert").onclick = function () {
+        const number = document.getElementById("txtNumber").value;
+        // Activity 2
+        if (!search(myArray, number)) {
+          // if (myArray.includes(number))
+          myArray.push(number);
+        }
+        const spanOutput = document.getElementById("spanOutput");
+
+        spanOutput.innerHTML = "My Array = {" + myArray + "} ";
+        // Activity 1
+        document.getElementById("txtNumber").value = "";
+      };
+    </script>
+  </body>
+</html>
